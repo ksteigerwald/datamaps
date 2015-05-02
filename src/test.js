@@ -56,6 +56,7 @@ test("get size of key", function() {
   }
   throws(checkForNotFound, 'foobar not found');
   Server.stop();
+
 });
 
 test("5 sec counts up to 30", function(assert) {
@@ -70,6 +71,7 @@ test("5 sec counts up to 30", function(assert) {
       setTimeout(runner, 700);
     }
     else {
+      Server.stop();
       done();
     }
   }
