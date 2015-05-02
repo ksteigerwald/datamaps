@@ -57,3 +57,22 @@ test("get size of key", function() {
   throws(checkForNotFound, 'foobar not found');
   Server.stop();
 });
+
+test("5 sec counts up to 30", function(assert) {
+  var done = assert.async();
+  var size = 2, complete = false, count = 0;
+  var runner = function() {
+    var len = Object.keys(Server.memory()).length;
+    assert.ok((size >= size -1 && size <= size), 'adds and updates');
+    if(count <= 5){
+      size += 2;
+      count++;
+      setTimeout(runner, 700);
+    }
+    else {
+      done();
+    }
+  }
+  Server.start(500);
+  setTimeout(runner, 700);
+});

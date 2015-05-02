@@ -7,12 +7,22 @@ var Server = (function() {
     servers: ['web', 'ftp', 'mail']
   }
 
+  var counts = {viruses:{},owner:{},servers:{}};
   var infected = {};
 
   /* PRIVATE */
 
   var _hasKey = function(obj, key) {
     return obj.hasOwnProperty(key);
+  },
+
+  _count = function(key, val) {
+    if(!_hasKey(counts, key)) return false
+    if(!_hasKey(counts[key], val)) counts[key][val] = 0;
+    var i = counts[key][val];
+    i++;
+    counts[key][val] = i;
+    console.log(key,val, counts[key]);
   },
 
   _small = function(i) {
@@ -51,9 +61,9 @@ var Server = (function() {
       if(count >= 5){
 
         count = 0;
-        var keys = Object.keys(infected)
+        var keys = Object.keys(infected),
              key = keys[randomNumber(keys.length-1, 1)],
-            obj = {};
+             obj = {};
 
         obj[key] = infected[key];
         return obj;
@@ -73,12 +83,29 @@ var Server = (function() {
       obj[key] = infected[key];
       return obj;
     }
+
     return plot;
   },
 
   _infect = function(plot) {
     var key = Object.keys(plot)[0];
     infected[key] = plot[key];
+    return plot;
+  },
+
+  _inc = function(plot) {
+    var key = _keys(plot)[0],
+       keys = _keys(plot[key]),
+        obj = plot[key];
+
+    var _addToCounts = function(key) {
+       var place = obj[key],
+            last = place[place.length-1];
+       var val = (typeof place == 'object') ? last : place;
+
+       _count(key, val);
+    }
+    keys.forEach(_addToCounts)
     return plot;
   },
 
@@ -118,15 +145,17 @@ var Server = (function() {
     return randomNumber(-90, 90, 3);
   },
 
+  /* dupicates it */
   plot = function(ip){
-    var infect = _compose(_infect, _contains, _repeat, _newPlot);
-    var hit = infect();
-    return hit;
+    var infect = _compose(_inc, _infect, _contains, _repeat, _newPlot);
+    infect();
+    infect();
+    return infected;
   },
 
-  start = function() {
+  start = function(timer) {
     if(cast) stop();
-    cast = setInterval(plot, 200);
+    cast = setInterval(plot, (timer || 5000));
     return cast
   },
 
@@ -138,9 +167,9 @@ var Server = (function() {
     return infected;
   },
 
-  size = function(key) {
-    if(!key || !_hasKey(infected[_keys()[0]], key)) throw 'Key not found';
-    return true;
+  size = function(key, val) {
+    if(!key || !_hasKey(counts, key)) throw 'Key not found';
+    return counts[key][val];
   }
 
   return {
