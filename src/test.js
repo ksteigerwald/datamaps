@@ -1,16 +1,20 @@
+function checkIp(val) {
+  var ip = new RegExp('^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$');
+  return ip.test(val);
+}
 module("Test Data Server", {
   setup:  function() {},
   teardown: function() {}
 });
 
 test("data stream", function() {
-
   ok(true,true);
 });
+
 test("function count", function() {
-
   ok(true,true);
 });
+
 test("virus count", function() {
   ok(true,true);
 });
@@ -27,8 +31,15 @@ test("random number", function() {
 });
 
 test("ipMePlease", function() {
-  var ip = new RegExp('^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$'), check = Server.ipMePlease();
-  ok(ip.test(check), check+' is a valid ip');
+  var check = Server.ipMePlease();
+  ok(checkIp(check), check + ' is a valid ip');
 });
 
-
+test("plot", function() {
+  var plot = Server.plot();
+  var key = Object.keys(plot)[0];
+  ok(checkIp(key), key + ' is a valid id');
+  ok(plot[key].hasOwnProperty('owner'), 'has owner');
+  ok(plot[key].hasOwnProperty('servers'), 'has servers');
+  ok(plot[key].hasOwnProperty('viruses'), 'has viruses');
+});
