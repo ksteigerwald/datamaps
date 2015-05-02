@@ -15,11 +15,16 @@ var Server = (function() {
   };
 
   var randomNumber = function(up,low) {
-    var max = (up || 10), min = (low || 0);
+    var max = (up || 10), min = (low || 1);
     return Math.floor(Math.random() * (max - min) + min);
+  },
+
+  ipMePlease = function() {
+    return '10.'.concat(randomNumber(200,299),'.',randomNumber(10,99),'.',randomNumber(100,200));
   }
 
   return {
-    'randomNumber' : randomNumber
+    'randomNumber' : randomNumber,
+    'ipMePlease' : ipMePlease
   }
 }());
