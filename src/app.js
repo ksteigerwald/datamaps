@@ -68,7 +68,7 @@ var Server = (function() {
   _contains = function(plot) {
     var key = Object.keys(plot)[0];
     if(infected[key]) {
-      var virus = data.viruses[randomNumber(3,0)], obj = {};
+      var virus = _randomThing('virus'), obj = {};
       infected[key].viruses.push(virus);
       obj[key] = infected[key];
       return obj;
@@ -90,7 +90,12 @@ var Server = (function() {
       }
       return result;
     }
-  };
+  },
+
+  _keys = function(obj) {
+    var o = obj || infected;
+    return Object.keys(o);
+  }
 
   /* PUBLIC */
 
@@ -115,13 +120,13 @@ var Server = (function() {
 
   plot = function(ip){
     var infect = _compose(_infect, _contains, _repeat, _newPlot);
-    var hit = infect()
+    var hit = infect();
     return hit;
   },
 
   start = function() {
     if(cast) stop();
-    cast = setInterval(plot,200);
+    cast = setInterval(plot, 200);
     return cast
   },
 
@@ -131,6 +136,11 @@ var Server = (function() {
 
   memory = function() {
     return infected;
+  },
+
+  size = function(key) {
+    if(!key || !_hasKey(infected[_keys()[0]], key)) throw 'Key not found';
+    return true;
   }
 
   return {
@@ -141,6 +151,7 @@ var Server = (function() {
     'plot' : plot,
     'start' : start,
     'stop' : stop,
-    'memory' : memory
+    'memory' : memory,
+    'size' : size
   }
 }());

@@ -43,3 +43,17 @@ test("plot", function() {
   ok(plot[key].hasOwnProperty('servers'), 'has servers');
   ok(plot[key].hasOwnProperty('viruses'), 'has viruses');
 });
+
+
+test("get size of key", function() {
+  Server.start();
+  var checkForBlank = function() {
+    Server.size();
+  }
+  throws(checkForBlank,'No key provided');
+  var checkForNotFound = function() {
+    Server.size('foobar');
+  }
+  throws(checkForNotFound, 'foobar not found');
+  Server.stop();
+});
