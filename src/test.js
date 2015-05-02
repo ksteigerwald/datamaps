@@ -24,10 +24,11 @@ test("random number", function() {
 
   var check = Server.randomNumber(100,200), pass=(check > 100 && check < 200);
   ok(pass, "random check: " +check);
-
 });
 
 test("ipMePlease", function() {
   var ip = new RegExp('^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$'), check = Server.ipMePlease();
   ok(ip.test(check), check+' is a valid ip');
 });
+
+

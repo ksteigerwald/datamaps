@@ -14,17 +14,51 @@ var Server = (function() {
       }
   };
 
-  var randomNumber = function(up,low) {
-    var max = (up || 10), min = (low || 1);
-    return Math.floor(Math.random() * (max - min) + min);
+  var _hasKey = function(obj, key) {
+    return obj.hasOwnProperty(key);
+  },
+
+  _randomThing = function(key) {
+    if(!_hasKey(data, key)) return false;
+    return data[key][randomNumber(data[key].length-1, 0)];
+  };
+
+  var randomNumber = function(up,low, fix) {
+    var max = (up || 10), min = (low || 1), fixed = (fix || 0);
+    return (Math.random() * (max - min) + min).toFixed(fixed) * 1;
   },
 
   ipMePlease = function() {
     return '10.'.concat(randomNumber(200,299),'.',randomNumber(10,99),'.',randomNumber(100,200));
+  },
+
+  getLong = function() {
+    return randomNumber(-180, 180, 3);
+  },
+
+  getLat = function() {
+    return randomNumber(-90, 90, 3);
+  },
+
+  plot = function() {
+    return {
+      ip: ipMePlease(),
+      virus: [ _randomThing('viruses') ],
+      owner: _randomThing('owner'),
+      servers: [ _randomThing('servers') ]
+    }
+  },
+
+  on = function() {
+    return function() {
+    }
   }
 
   return {
     'randomNumber' : randomNumber,
-    'ipMePlease' : ipMePlease
+    'ipMePlease' : ipMePlease,
+    'getLong' : getLong,
+    'getLat' : getLat,
+    'plot' : plot
   }
 }());
