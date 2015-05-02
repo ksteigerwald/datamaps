@@ -10,8 +10,7 @@ var Server = (function() {
     '10.223.75.186': {
        owner: '',
        virus:[],
-       servers: ''
-      }
+       servers: '' }
   };
 
   var _hasKey = function(obj, key) {
@@ -21,7 +20,27 @@ var Server = (function() {
   _randomThing = function(key) {
     if(!_hasKey(data, key)) return false;
     return data[key][randomNumber(data[key].length-1, 0)];
-  };
+  },
+
+  _keyit = function(obj, ip) {
+    return function(key) {
+      var val = _randomThing(key);
+      obj[ip][key] = (key == 'owner') ? val : [val];
+      return obj;
+    }
+  },
+
+  _newPlot = function() {
+    var obj = {},
+         ip = ipMePlease();
+
+    obj[ip] = {
+      geo: "".concat(getLat(),',', getLong())
+    };
+
+    var plot = _keyit(obj, ip);
+    return ['viruses', 'owner', 'servers'].map(plot).pop();
+  }
 
   var randomNumber = function(up,low, fix) {
     var max = (up || 10), min = (low || 1), fixed = (fix || 0);
@@ -40,18 +59,12 @@ var Server = (function() {
     return randomNumber(-90, 90, 3);
   },
 
-  plot = function() {
-    return {
-      ip: ipMePlease(),
-      virus: [ _randomThing('viruses') ],
-      owner: _randomThing('owner'),
-      servers: [ _randomThing('servers') ]
-    }
+  plot = function(item){
+    return _newPlot();
   },
 
-  on = function() {
-    return function() {
-    }
+  infect = function(plot) {
+
   }
 
   return {
