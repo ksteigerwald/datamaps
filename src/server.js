@@ -169,6 +169,10 @@ var Server = (function() {
   size = function(key, val) {
     if(!key || !_hasKey(counts, key)) throw 'Key not found';
     return counts[key][val];
+  },
+
+  log = function() {
+    return counts;
   }
 
   return {
@@ -180,6 +184,7 @@ var Server = (function() {
     'start' : start,
     'stop' : stop,
     'memory' : memory,
-    'size' : size
+    'size' : size,
+    'log' : log
   }
 }());
