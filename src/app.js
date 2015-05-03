@@ -1,6 +1,5 @@
 var BaseView = (function() {
-  var $doc = '',
-   $output = '';
+  var $doc = '', $output = '';
 
   var actions = {
     doc: '',
@@ -82,19 +81,20 @@ var CountsInfectionView = (function(view) {
 }($.extend({},BaseView)));
 
 
-var TableView = (function() {
+var TableView = (function(view) {
 
   view.doc = '#tmp-table';
   view.$output = 'table > tbody';
 
+  var mock = {data:[{ip: '127.0.0.1', owner:0}]}
   var _parse = function(data,key) {
-    return {name: key, count: data[key]};
+    return $.extend({},{ip:key},data[key]);
   },
 
   _update = function() {
     var data = Server.memory();
     var list = Object.keys(data).map(_parse.bind(this, data));
-    view.render({ list: list });
+    view.render({ data: list });
   },
 
   _subscribe = function() {
@@ -112,7 +112,18 @@ var TableView = (function() {
 }($.extend({},BaseView)));
 
 var MapView = (function() {
+  var doc = '#tmp-popup';
+
+
   var actions = {
+    template: function() {
+      return $(doc).html();
+    },
+
+    setup: function() {
+      this.render();
+      $(window).bind('data:pushed', this.bub.bind(this))
+    },
 
     render: function() {
       this.map = new Datamap({
@@ -124,7 +135,10 @@ var MapView = (function() {
     },
 
     list: function() {
-      var keys = Object.keys(Server.memory()), items = Server.memory();
+
+      var keys = Object.keys(Server.memory()),
+         items = Server.memory();
+
       return keys.map(function(v) {
 
         var item = items[v],
@@ -142,33 +156,27 @@ var MapView = (function() {
       });
     },
 
-    map: function() {
-      return this.map();
-    },
-
     bub: function() {
+      var self = this;
       this.map.bubbles(this.list(), {
         popupTemplate: function (geo, data) {
-          return ['<div class="hoverinfo">' +  data.name,
-          '<br/>Viruses: ' +  data.viruses ,
-          '<br/>Company: ' +  data.company + '',
-          '<br/>Servers: ' +  data.server + '',
-            '</div>'].join('');
-        }
-      });
+          return Mustache.render(self.template(), data);
+       }});
     }
 
   }
   return actions ;
 }());
 
-Server.start(500, function() {
+Server.start(5000, function() {
   $(window).trigger('data:pushed');
 });
 
 $(function() {
-  MapView.render();
+  MapView.setup();
   CountsVirusView.setup();
   CountsInfectionView.setup();
-})
+  TableView.setup();
+});
+
 

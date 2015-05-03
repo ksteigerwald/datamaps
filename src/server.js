@@ -56,6 +56,7 @@ var Server = (function() {
 
   _simulate = function() {
     var count = 0;
+
     return function(plot) {
       if(count >= 5){
 
@@ -137,11 +138,11 @@ var Server = (function() {
   },
 
   getLong = function() {
-    return randomNumber(-77, -110, 3);
+    return randomNumber(-75, -120, 3);
   },
 
   getLat = function() {
-    return randomNumber(30, 52, 3);
+    return randomNumber(31, 48, 3);
   },
 
   /* dupicates it */
