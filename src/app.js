@@ -130,7 +130,16 @@ var MapView = (function() {
         element: document.getElementById('usofa'),
         scope: 'usa',
         highlightOnHover: false,
-        popupOnHover: false
+        popupOnHover: false,
+        fills: {
+          defaultFill: 'rgba(230, 227, 227, .75)'
+        },
+        geographyConfig: {},
+        bubblesConfig: {
+          borderWidth: 2,
+          borderColor: 'rgba(230, 92, 17, .75)',
+          highlightFillColor: 'rgba(230, 92, 17, .75)'
+        }
       });
     },
 
@@ -168,7 +177,7 @@ var MapView = (function() {
   return actions ;
 }());
 
-Server.start(5000, function() {
+Server.start(1000, function() {
   $(window).trigger('data:pushed');
 });
 

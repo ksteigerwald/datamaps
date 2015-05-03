@@ -1,37 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
     <link type="text/css" rel="stylesheet" href="src/css/skeleton.min.css">
     <link type="text/css" rel="stylesheet" href="src/css/app.css">
-  </head>
-  <body>
-    <div id="app" class="container">
-      <div class="row">
-        <div class="ten columns" id="usofa"></div>
-        <div class="two columns">
-            <h4>Viruses</h4>
-           <div id="virus-count"></div>
-            <h4>Infected Servers</h4>
-           <div id="infected-count"></div>
-        </div>
-      </div>
-      <div class="row">
-        <table width="100%">
-          <thead>
-            <th>ip</th>
-            <th>geo</th>
-            <th>owner</th>
-            <th>servers</th>
-            <th>viruses</th>
-            <th></th>
-          </thead>
-          <tbody>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+</head>
 
-          </tbody>
-        </table>
-      </div>
+<body>
+    <div id="app" class="container">
+        <div class="row">
+            <div class="nine columns" id="usofa"></div>
+            <div class="three columns counts">
+                <h5>Viruses</h5>
+                <div id="virus-count"></div>
+                <h5>Infected Servers</h5>
+                <div id="infected-count"></div>
+            </div>
+        </div>
+        <div class="row data-grid">
+            <table>
+                <thead>
+                  <tr>
+                    <th>ip</th>
+                    <th>geo</th>
+                    <th>owner</th>
+                    <th>servers</th>
+                    <th>viruses</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
     </div>
     <script src="src/libs/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="src/libs/d3.min.js" type="text/javascript" charset="utf-8"></script>
@@ -41,37 +45,39 @@
     <script src="src/server.js" type="text/javascript" charset="utf-8"></script>
     <script src="src/app.js" type="text/javascript" charset="utf-8"></script>
 
- <script id="tmp-counts" type="text/html" charset="utf-8">
-  <div class="small-box">
-    <ul>
-    {{#list}}
-      <li>
-        <em>{{count}}</em>
-        <strong>{{name}}</strong></li>
-     {{/list}}
-     </ul>
-    </div>
-  </script>
-  <script id="tmp-popup" type="text/html" charset="utf-8">
-<div class="hoverinfo">
-<ul>
-  <li><strong>IP:</strong>{{name}}</li>
-  <li><strong>Viruses: </strong>{{viruses}}</li>
-  <li><strong>Company: </strong>{{company}}</li>
-  <li><strong>Servers: </strong>{{server}}</li>
-</ul>
-</div>
-  </script>
-  <script id="tmp-table" type="text/html" charset="utf-8">
-    {{#data}}
-      <tr>
-        <td>{{ip}}</td>
-        <td>{{geo}}</td>
-        <td>{{owner}}</td>
-        <td>{{servers}}</td>
-        <td>{{viruses}}</td>
-      </tr>
-    {{/data}}
-  </script>
-  </body>
+    <script id="tmp-counts" type="text/html" charset="utf-8">
+        <div class="small-box">
+            <ul>
+                {{#list}}
+                <li>
+                    <em>{{count}}</em>
+                    <strong>{{name}}</strong>
+                </li>
+                {{/list}}
+            </ul>
+        </div>
+    </script>
+    <script id="tmp-popup" type="text/html" charset="utf-8">
+        <div class="hoverinfo">
+            <ul>
+                <li><strong>IP:</strong>{{name}}</li>
+                <li><strong>Viruses: </strong>{{viruses}}</li>
+                <li><strong>Company: </strong>{{company}}</li>
+                <li><strong>Servers: </strong>{{server}}</li>
+            </ul>
+        </div>
+    </script>
+    <script id="tmp-table" type="text/html" charset="utf-8">
+        {{#data}}
+        <tr>
+            <td>{{ip}}</td>
+            <td>{{geo}}</td>
+            <td>{{owner}}</td>
+            <td>{{servers}}</td>
+            <td>{{viruses}}</td>
+        </tr>
+        {{/data}}
+    </script>
+</body>
+
 </html>
