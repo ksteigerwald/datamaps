@@ -10,7 +10,28 @@
     <div id="app" class="container">
       <div class="row">
         <div class="ten columns" id="usofa"></div>
-        <div class="two columns"></div>
+        <div class="two columns">
+            <h4>Viruses</h4>
+           <div id="virus-count"></div>
+            <h4>Infected Servers</h4>
+           <div id="infected-count"></div>
+        </div>
+      </div>
+      <div class="row">
+        <table>
+          <thead>
+            <th>ip</th>
+            <th>lat</th>
+            <th>long</th>
+            <th>owner</th>
+            <th>servers</th>
+            <th>viruses</th>
+            <th></th>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
       </div>
     </div>
     <script src="src/libs/jquery.min.js" type="text/javascript" charset="utf-8"></script>
@@ -20,5 +41,39 @@
     <script src="src/libs/mustache.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="src/server.js" type="text/javascript" charset="utf-8"></script>
     <script src="src/app.js" type="text/javascript" charset="utf-8"></script>
+
+ <script id="tmp-counts" type="text/html" charset="utf-8">
+  <div class="small-box">
+    <ul>
+    {{#list}}
+      <li>
+        <em>{{count}}</em>
+        <strong>{{name}}</strong></li>
+     {{/list}}
+     </ul>
+    </div>
+  </script>
+  <script id="tmp-popup" type="text/html" charset="utf-8">
+<div class="hoverinfo">
+<ul>
+  <li><strong>IP:</strong>{{name}}</li>
+  <li><strong>Viruses: </strong>{{viruses}}</li>
+  <li><strong>Company: </strong>{{company}}</li>
+  <li><strong>Servers: </strong>{{server}}</li>
+</ul>
+</div>
+  </script>
+  <script id="tmp-table" type="text/html" charset="utf-8">
+    {{#data}}
+      <tr>
+        <td>{{ip}}</td>
+        <td>{{lat}}</td>
+        <td>{{long}}</td>
+        <td>{{owner}}</td>
+        <td>{{servers}}</td>
+        <td>{{viruses}}</td>
+      </tr>
+    {{/data}}
+  </script>
   </body>
 </html>
