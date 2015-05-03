@@ -16,42 +16,104 @@ var BaseView = (function() {
   }
   return actions;
 }());
-var bombs = [{
-  name: 'Joe 4',
-  radius: 25,
-  yield: 400,
-  country: 'USSR',
-  fillKey: 'RUS',
-  significance: 'First fusion weapon test by the USSR (not "staged")',
-  date: '1953-08-12',
-  latitude: 50.07,
-  longitude: 78.43
-},{
-  name: 'RDS-37',
-  radius: 40,
-  yield: 1600,
-  country: 'USSR',
-  fillKey: 'RUS',
-  significance: 'First "staged" thermonuclear weapon test by the USSR (deployable)',
-  date: '1955-11-22',
-  latitude: -50.07,
-  longitude: 78.43
 
-},{
-  name: 'Tsar Bomba',
-  radius: 75,
-  yield: 50000,
-  country: 'USSR',
-  fillKey: 'RUS',
-  significance: 'Largest thermonuclear weapon ever tested—scaled down from its initial 100 Mt design by 50%',
-  date: '1961-10-31',
-  latitude: 73.482,
-  longitude: 54.5854
-}
-];
+var CountsVirusView = (function(view) {
+
+  view.doc = '#tmp-counts';
+  view.$output = '#virus-count';
+
+  var mock = {list:[{name: 'spam', count:0}]}
+
+  var _parse = function(data,key) {
+    return {name: key, count: data[key]};
+  },
+
+  _update = function() {
+    var data = Server.log().viruses;
+    var list = Object.keys(data).map(_parse.bind(this, data));
+    view.render({list:list});
+  },
+
+  _subscribe = function() {
+    $(window).bind('data:pushed', _update)
+  };
+
+  var actions = {
+    setup: function() {
+      _subscribe();
+      view.render(mock);
+    }
+  }
+
+  return actions;
+}($.extend({},BaseView)));
+
+
+var CountsInfectionView = (function(view) {
+
+  view.doc = '#tmp-counts';
+  view.$output = '#infected-count';
+
+  var mock = {list:[{name: 'spam', count:0}]}
+
+  var _parse = function(data,key) {
+    return {name: key, count: data[key]};
+  },
+
+  _update = function() {
+    var data = Server.log().servers;
+    var list = Object.keys(data).map(_parse.bind(this, data));
+    view.render({list:list});
+  },
+
+  _subscribe = function() {
+   $(window).bind('data:pushed', _update)
+  };
+
+  var actions = {
+    setup: function() {
+      _subscribe();
+      view.render(mock);
+    }
+  }
+
+  return actions;
+
+}($.extend({},BaseView)));
+
+
+var TableView = (function() {
+
+  view.doc = '#tmp-table';
+  view.$output = 'table > tbody';
+
+  var _parse = function(data,key) {
+    return {name: key, count: data[key]};
+  },
+
+  _update = function() {
+    var data = Server.memory();
+    var list = Object.keys(data).map(_parse.bind(this, data));
+    view.render({ list: list });
+  },
+
+  _subscribe = function() {
+   $(window).bind('data:pushed', _update)
+  };
+
+  var actions = {
+    setup: function() {
+      _subscribe();
+      view.render(mock);
+    }
+  }
+
+  return actions;
+}($.extend({},BaseView)));
 
 var MapView = (function() {
   var actions = {
+
     render: function() {
       this.map = new Datamap({
         element: document.getElementById('usofa'),
@@ -60,6 +122,7 @@ var MapView = (function() {
         popupOnHover: false
       });
     },
+
     list: function() {
       var keys = Object.keys(Server.memory()), items = Server.memory();
       return keys.map(function(v) {
@@ -89,13 +152,23 @@ var MapView = (function() {
           return ['<div class="hoverinfo">' +  data.name,
           '<br/>Viruses: ' +  data.viruses ,
           '<br/>Company: ' +  data.company + '',
-          '<br/>Servers: ' +  data.servers + '',
+          '<br/>Servers: ' +  data.server + '',
             '</div>'].join('');
         }
       });
     }
+
   }
   return actions ;
 }());
 
-MapView.render();
+Server.start(500, function() {
+  $(window).trigger('data:pushed');
+});
+
+$(function() {
+  MapView.render();
+  CountsVirusView.setup();
+  CountsInfectionView.setup();
+})
+
