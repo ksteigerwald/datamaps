@@ -137,11 +137,11 @@ var Server = (function() {
   },
 
   getLong = function() {
-    return randomNumber(-180, 180, 3);
+    return randomNumber(-77, -110, 3);
   },
 
   getLat = function() {
-    return randomNumber(-90, 90, 3);
+    return randomNumber(30, 52, 3);
   },
 
   /* dupicates it */
@@ -152,7 +152,7 @@ var Server = (function() {
     return infected;
   },
 
-  start = function(timer) {
+  start = function(timer, callback) {
     if(cast) stop();
     cast = setInterval(plot, (timer || 5000));
     return cast
