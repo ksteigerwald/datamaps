@@ -158,12 +158,13 @@ var Server = (function() {
             return randomNumber(31, 48, 3);
         },
 
-        /* dupicates it */
         plot = function(callback) {
             var infect = _compose(_inc, _infect, _contains, _repeat, _newPlot);
             infect();
             infect();
-            if (callback) callback();
+            if (callback) {
+                callback.call();
+            }
             return infected;
         },
 
@@ -188,7 +189,14 @@ var Server = (function() {
 
         log = function() {
             return counts;
-        }
+        },
+
+        init = function() {
+            for (var i = 0, l = 5; i < l; i++) {
+                plot();
+            }
+            $(window).trigger('data:pushed');
+        };
 
     return {
         'randomNumber': randomNumber,
@@ -200,6 +208,7 @@ var Server = (function() {
         'stop': stop,
         'memory': memory,
         'size': size,
-        'log': log
+        'log': log,
+        'init': init
     }
 }());

@@ -207,14 +207,15 @@ var MapView = (function() {
     }
     return actions;
 }());
-
-Server.start(5000, function() {
-    $(window).trigger('data:pushed');
-});
-
 $(function() {
+
+    Server.start(5000, function() {
+        $(window).trigger('data:pushed');
+    });
+
     MapView.setup();
     CountsVirusView.setup();
     CountsInfectionView.setup();
     TableView.setup();
+    Server.init();
 });
