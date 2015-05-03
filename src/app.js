@@ -1,10 +1,19 @@
-var CountsView = (function() {
+var BaseView = (function() {
+  var $doc = '',
+   $output = '';
 
-  var $li = "<li>{{point}}</li>"
-    var actions = {
-      render: function() {
-      }
+  var actions = {
+    doc: '',
+    $output: '',
+    template: function() {
+      return $(this.doc).html();
+    },
+
+    render: function(data) {
+      var output = Mustache.render(this.template(), data);
+      $(this.$output).html(output);
     }
+  }
   return actions;
 }());
 var bombs = [{
