@@ -48,6 +48,10 @@ tbody {
     min-height: 500px;
     width: 100%;
 }
+thead {
+    background: rgba(255,255,255,.5);
+    color:#CF230C;
+}
 thead tr th,
 tbody tr td {
     width: 23.3%;
@@ -59,7 +63,10 @@ thead tr th {
 div.data-grid table thead th {
     border: none;
 }
-
+tbody tr td ,
+thead tr th {
+  text-align:center;
+}
 div.small-box ul {
   list-style:none;
 }
@@ -71,7 +78,7 @@ div.small-box ul li {
   border:1px solid #fff;
   border-radius:5px;
   padding:10px;
-  width:3.5rem;
+  width:4rem;
 }
 div.small-box ul li em {
   font-size:3.5rem;
