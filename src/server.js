@@ -145,16 +145,17 @@ var Server = (function() {
   },
 
   /* dupicates it */
-  plot = function(ip){
+  plot = function(callback){
     var infect = _compose(_inc, _infect, _contains, _repeat, _newPlot);
     infect();
     infect();
+    if(callback) callback();
     return infected;
   },
 
   start = function(timer, callback) {
     if(cast) stop();
-    cast = setInterval(plot, (timer || 5000));
+    cast = setInterval(plot.bind(this, callback), (timer || 5000));
     return cast
   },
 
