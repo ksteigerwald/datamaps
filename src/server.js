@@ -76,11 +76,14 @@ var Server = (function() {
   _repeat = _simulate(),
 
   _contains = function(plot) {
-    var key = Object.keys(plot)[0];
-    if(infected[key]) {
+    var key = Object.keys(plot)[0],
+        item = infected[key];
+    if(item) {
       var virus = _randomThing('viruses'), obj = {};
-      infected[key].viruses.push(virus);
-      obj[key] = infected[key];
+      if(item.viruses.indexOf(virus) == -1){
+        item.viruses.push(virus);
+      }
+      obj[key] = item;
       return obj;
     }
 
