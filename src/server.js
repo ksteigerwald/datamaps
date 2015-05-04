@@ -12,6 +12,7 @@ var Server = (function() {
         owner: {},
         servers: {}
     };
+
     var infected = {};
 
     /* PRIVATE */
